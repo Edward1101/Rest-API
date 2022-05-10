@@ -12,5 +12,4 @@ class ProductSerializer(serializers.ModelSerializer):
             'a',
             'b',
             'c',
-
         ]

@@ -8,6 +8,7 @@ from .models import Product
 from .serializers import ProductSerializer
 from rest_framework import serializers
 
+
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -29,10 +30,12 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
 
 product_list_create_view = ProductListCreateAPIView.as_view()
 
+
 class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # lookup_field = 'pk' ??
+
 
 product_detail_view = ProductDetailAPIView.as_view()
 
@@ -45,9 +48,10 @@ class ProductUpdateAPIView(generics.UpdateAPIView):
     def perform_update(self, serializer):
         instance = serializer.save()
         print(f"{instance.shape}, a is {instance.a}, b is {instance.b}, c is {instance.c}")
-        instance.a, instance.b, instance.c = check_data(instance.shape, instance.a, instance.b,  instance.c)
+        instance.a, instance.b, instance.c = check_data(instance.shape, instance.a, instance.b, instance.c)
         print(instance)
-            ##
+        ##
+
 
 product_update_view = ProductUpdateAPIView.as_view()
 
@@ -60,6 +64,7 @@ class ProductDestroyAPIView(generics.DestroyAPIView):
     def perform_destroy(self, instance):
         # instance
         super().perform_destroy(instance)
+
 
 product_destroy_view = ProductDestroyAPIView.as_view()
 

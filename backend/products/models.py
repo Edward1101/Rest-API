@@ -16,4 +16,3 @@ class Product(models.Model):
     b = models.FloatField(max_length=20, default=-0.1)
     c = models.FloatField(max_length=20, default=-0.1)
 
-    content = models.TextField(blank=True, null=True)
