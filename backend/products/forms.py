@@ -6,6 +6,7 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = [
+            'id',
             'shape',
             'a',
             'b',
