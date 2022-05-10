@@ -1,15 +1,16 @@
 from .models import User
 from .serializers import UserSerializer
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework import status, exceptions
 
 from rest_framework.response import Response
 from cfehome.settings import SUPER_USER
-from.constants import HTTP_ACTION_LOGIN,HTTP_ACTION_REGISTER
+from .constants import HTTP_ACTION_LOGIN, HTTP_ACTION_REGISTER
 import uuid
 from django.core.cache import cache
 from .auth import UserAuth
-from .permissions import IsSuperUser
+from .permissions import IsUser
+
 
 # ListCreateAPIView
 # get all user
@@ -19,8 +20,7 @@ class UsersAPIView(ListCreateAPIView):
     # authentication_classes
     authentication_classes = (UserAuth,)
     # permission_class
-    permission_classes = (IsSuperUser,)
-
+    permission_classes = (IsUser,)
 
     # def get(self, request, *args, **kwargs):
     #     if isinstance(request.user, User):
@@ -54,6 +54,7 @@ class UsersAPIView(ListCreateAPIView):
                     # save to cache
                     # cache.set(key, value)
                     print(f"token is {token}")
+                    # need to active redis local server
                     cache.set(token, user.id)
                     print(f" set cache done ")
                     data = {
@@ -99,8 +100,10 @@ class UsersAPIView(ListCreateAPIView):
 
 
 # get single user
-class UserAPIView(ListCreateAPIView):
+class UserAPIView(RetrieveAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
-
+    # authentication_classes
+    authentication_classes = (UserAuth,)
+    # permission_class
+    permission_classes = (IsUser,)
